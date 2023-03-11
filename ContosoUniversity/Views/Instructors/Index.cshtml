@@ -1,10 +1,10 @@
-﻿@model ContosoUniversity.Models.SchoolViewModels.InstructorIndexData
+@model ContosoUniversity.Models.SchoolViewModels.InstructorIndexData
 
 @{
     ViewData["Title"] = "Instructors";
 }
 
-<h2>Instructors</h2>
+<h2>@ViewData["Title"]</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -26,7 +26,7 @@
             string selectedRow = "";
             if (item.ID == (int?)ViewData["InstructorID"])
             {
-                selectedRow = "success";
+                selectedRow = "table-success";
             }
             <tr class="@selectedRow">
                 <td>
@@ -53,7 +53,7 @@
                     }
                 </td>
                 <td>
-                    <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
+                    <a asp-action="Index" asp-route-id="@item.ID" asp-fragment="scroll">Select</a> |
                     <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
@@ -65,27 +65,29 @@
 
 @if (Model.Courses != null)
 {
-    <h3>Courses Taught by Selected Instructor</h3>
-    <table class="table">
-        <tr>
-            <th></th>
-            <th>Number</th>
-            <th>Title</th>
-            <th>Department</th>
-        </tr>
+    <h3>
+        Courses Taught by Selected Instructor
+    </h3>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Title</th>
+                <th>Department</th>
+            </tr>
+        </thead>
 
         @foreach (var item in Model.Courses)
         {
             string selectedRow = "";
             if (item.CourseID == (int?)ViewData["CourseID"])
             {
-                selectedRow = "success";
+                selectedRow = "table-success";
             }
-            <tr class="@selectedRow">
+            <tr class="@selectedRow position-relative">
                 <td>
-                    @Html.ActionLink("Select", "Index", new { courseID = item.CourseID })
-                </td>
-                <td>
+                    <a class="stretched-link" asp-action="Index" asp-fragment="scroll"
+               asp-route-courseID="@item.CourseID" title="Select this course"></a>
                     @item.CourseID
                 </td>
                 <td>
@@ -96,7 +98,6 @@
                 </td>
             </tr>
         }
-
     </table>
 }
 
@@ -105,15 +106,20 @@
     <h3>
         Students Enrolled in Selected Course
     </h3>
-    <table class="table">
-        <tr>
-            <th>Name</th>
-            <th>Grade</th>
-        </tr>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+
         @foreach (var item in Model.Enrollments)
         {
-            <tr>
+            <tr class="position-relative">
                 <td>
+                    <a class="stretched-link" asp-action="Details" asp-controller ="Students"
+                       asp-route-id="@item.StudentID" title="Select this student"></a>
                     @item.Student.FullName
                 </td>
                 <td>
@@ -123,3 +129,6 @@
         }
     </table>
 }
+
+@* Anchor to keep the bottom in view *@
+<a name="scroll"></a>

@@ -1,4 +1,4 @@
-﻿@model ContosoUniversity.Models.Course
+@model ContosoUniversity.Models.Course
 
 @{
     ViewData["Title"] = "Details";
@@ -32,7 +32,9 @@
             @Html.DisplayNameFor(model => model.Department)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Department.DepartmentID)
+            <a asp-action="Details" asp-controller="Departments" asp-route-id="@Model.Department.DepartmentID">
+                @Html.DisplayFor(model => model.Department.Name)
+            </a>
         </dd>
     </dl>
 </div>

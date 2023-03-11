@@ -6,24 +6,25 @@
     var pageSizes = new SelectList(new[] { 3, 10, 25 }, ViewData["pageSize"]);
 }
 
-<h2>Index</h2>
+<h2>@ViewData["Title"]</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 
-<form class="mb-3" asp-action="Index" method="get">
+<form class="form-inline mb-3" asp-action="Index" method="get">
     @* TODO: Make this layout better. *@
-    <div class="input-group">
-        <label class="input-group-text" for="SearchString">Find by name</label>
-        <input class="form-control" type="text" id="SearchString" name="SearchString" value="@ViewData["CurrentFilter"]" />
-        <input type="submit" value="Search" class="btn btn-default btn-outline-primary input-group-append" />
+    <div class="input-group col-sm-6 flex-nowrap">
+        <input class="form-control flex-shrink-0" type="text" id="SearchString" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search by name" title="Search by name" />
+        <div class="btn-group input-group-append">
+            <input type="submit" value="Search" class="btn btn-default btn-primary" />
+            <a class="btn btn-outline-secondary" asp-action="Index" asp-route-pageSize="@ViewData["pageSize"]">Reset</a>
+        </div>
     </div>
-    <div class="input-group">
-        <label class="input-group-text" for="PageSize">Page size</label>
-        <select name="pageSize" asp-items="pageSizes" onchange="this.form.submit()"></select>
+    <div class="input-group col-sm-3 flex-nowrap">
+        <label class="input-group-text" for="PageSize">Records per page</label>
+        <select class="form-control" name="pageSize" asp-items="pageSizes" onchange="this.form.submit()"></select>
     </div>
-    <a asp-action="Index">Back to Full List</a>
 </form>
 
 <table class="table">
