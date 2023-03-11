@@ -87,14 +87,15 @@
             <tr class="@selectedRow position-relative">
                 <td>
                     <a class="stretched-link" asp-action="Index" asp-fragment="scroll"
-               asp-route-courseID="@item.CourseID" title="Select this course"></a>
-                    @item.CourseID
+               asp-route-courseID="@item.CourseID" title="Select this course">
+                        @Html.DisplayFor(modelItem => item.CourseID)
+                    </a>
                 </td>
                 <td>
-                    @item.Title
+                    @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
-                    @item.Department.Name
+                    @Html.DisplayFor(modelItem => item.Department.Name)
                 </td>
             </tr>
         }
@@ -118,9 +119,11 @@
         {
             <tr class="position-relative">
                 <td>
-                    <a class="stretched-link" asp-action="Details" asp-controller ="Students"
-                       asp-route-id="@item.StudentID" title="Select this student"></a>
-                    @item.Student.FullName
+                    <a class="stretched-link" asp-action="Details" asp-controller="Students"
+               asp-route-id="@item.StudentID" title="Select this student">
+                        @Html.DisplayFor(modelItem => item.Student.FullName)
+                    </a>
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Grade)

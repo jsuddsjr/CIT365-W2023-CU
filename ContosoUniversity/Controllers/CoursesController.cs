@@ -38,6 +38,10 @@ namespace ContosoUniversity.Controllers
 
             Course course = await _context.Courses
                 .Include(c => c.Department)
+                .Include(c => c.CourseAssignments)
+                    .ThenInclude(e => e.Instructor)
+                .Include(c => c.Enrollments)
+                    .ThenInclude(e => e.Student)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.CourseID == id);
             return course == null ? NotFound() : (IActionResult)View(course);

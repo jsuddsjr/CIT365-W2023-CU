@@ -45,8 +45,9 @@
                     <tr class="position-relative">
                         <td>
                             <a class="stretched-link" asp-action="Details" asp-controller ="Courses"
-                               asp-route-id="@item.CourseID" title="Select this course"></a>
-                            @item.CourseID
+                           asp-route-id="@item.CourseID" title="Select this course">
+                                @item.CourseID
+                            </a>
                         <td>
                             @Html.DisplayFor(modelItem => item.Course.Title)
                         </td>
