@@ -1,5 +1,5 @@
-﻿@{
-    ViewBag.Title = "UpdateCourseCredits";
+@{
+    ViewBag.Title = "Update Course Credits";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -9,15 +9,20 @@
     <form asp-action="UpdateCourseCredits">
         <div class="form-actions no-color">
             <p>
+                <select asp-items="@ViewBag.DepartmentID" name="DepartmentID">
+                    <option value="">-- Select Department --</option>
+                </select>
+            </p>
+            <p>
                 Enter a number to multiply every course's credits by: @Html.TextBox("multiplier")
             </p>
             <p>
-                <input type="submit" value="Update" class="btn btn-default" />
+                <input type="submit" value="Update" class="btn btn-primary btn-default" />
             </p>
         </div>
     </form>
 }
-@if (ViewData["RowsAffected"] != null)
+else
 {
     <p>
         Number of rows updated: @ViewData["RowsAffected"]

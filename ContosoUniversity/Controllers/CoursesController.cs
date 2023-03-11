@@ -162,18 +162,19 @@ namespace ContosoUniversity.Controllers
 
         public IActionResult UpdateCourseCredits()
         {
+            PopulateDepartmentsDropDownList();
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateCourseCredits(int? multiplier)
+        public async Task<IActionResult> UpdateCourseCredits(int? departmentID, int? multiplier)
         {
-            if (multiplier != null)
+            if (multiplier != null && departmentID != null)
             {
                 ViewData["RowsAffected"] =
                     await _context.Database.ExecuteSqlRawAsync(
-                        "UPDATE Course SET Credits = Credits * {0}",
-                        parameters: multiplier);
+                        "UPDATE Course SET Credits = Credits * {0} WHERE DepartmentID = {1}",
+                        multiplier, departmentID);
             }
             return View();
         }
