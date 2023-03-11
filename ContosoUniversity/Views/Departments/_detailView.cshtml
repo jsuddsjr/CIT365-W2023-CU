@@ -26,7 +26,39 @@
             @Html.DisplayNameFor(model => model.Administrator)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Administrator.FullName)
+            @if (Model.Administrator != null)
+            {
+                <a asp-action="Details" asp-controller="Instructors" asp-route-id="@Model.Administrator.ID">
+                    @Html.DisplayFor(model => model.Administrator.FullName)
+                </a>
+            }
         </dd>
+        @if (Model.Courses != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Courses)
+            </dt>
+            <dd class="col-sm-10">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.Courses)
+                    {
+                        <tr class="position-relative">
+                            <td>
+                                <a class="stretched-link" asp-action="Details" asp-controller="Courses" asp-route-id="@item.CourseID">@item.CourseID</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </dd>
+        }
     </dl>
 </div>

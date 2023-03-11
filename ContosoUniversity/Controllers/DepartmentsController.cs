@@ -38,6 +38,7 @@ namespace ContosoUniversity.Controllers
             Department department = await _context.Departments
                 .FromSqlRaw(query, id)
                 .Include(d => d.Administrator)
+                .Include(d => d.Courses)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 
