@@ -7,10 +7,10 @@
 <h1>@ViewData["Title"]</h1>
 
 <form asp-action="Edit">
-    <input type="hidden" asp-for="ID" />
-    <partial name="_editView" model="@Model" />
+    <input type="hidden" asp-for="ID" >
+    <partial name="_editView" model="@Model" >
     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
+        <input type="submit" value="Save" class="btn btn-primary" >
     </div>
 </form>
 

@@ -8,10 +8,10 @@
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
+    <div id="cookieConsent" class="alert alert-info alert-dismissible fade" role="alert">
 
-        You can instruct Your browser to refuse all Cookies or to indicate when a Cookie is being sent. 
-        However, if You do not accept Cookies, You may not be able to use some parts of our Service. 
+        You can instruct Your browser to refuse all Cookies or to indicate when a Cookie is being sent.
+        However, if You do not accept Cookies, You may not be able to use some parts of our Service.
         <a asp-area="" asp-controller="Home" asp-action="Privacy">Learn More</a>.
         <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
             <span aria-hidden="true">Accept</span>
@@ -19,6 +19,10 @@
     </div>
     <script>
         (function () {
+            if (document.cookie.indexOf("consent=true") >= 0) {
+                return;
+            })
+            var consentDiv = document.querySelector("#cookieConsent").classList.add('show');
             var button = document.querySelector("#cookieConsent button[data-cookie-string]");
             button.addEventListener("click", function (event) {
                 document.cookie = button.dataset.cookieString;

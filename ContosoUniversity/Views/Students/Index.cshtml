@@ -14,15 +14,15 @@
 
 <form class="form-inline mb-3" asp-action="Index" method="get">
     <div class="input-group col-sm-6 flex-nowrap">
-        <input class="form-control flex-shrink-0" type="text" id="SearchString" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search by name" title="Search by name" />
+        <input class="form-control flex-shrink-0" type="text" id="SearchString" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search by name" title="Search by name" >
         <div class="btn-group input-group-append">
-            <input type="submit" value="Search" class="btn btn-primary" />
+            <input type="submit" value="Search" class="btn btn-primary" >
             <a class="btn btn-outline-secondary" asp-action="Index" asp-route-pageSize="@ViewData["pageSize"]">Clear</a>
         </div>
     </div>
     <div class="input-group col-sm-3 flex-nowrap">
-        <label class="input-group-text" for="PageSize">Records per page</label>
-        <select class="form-control" name="pageSize" asp-items="pageSizes" onchange="this.form.submit()"></select>
+        <label class="input-group-text" for="pageSize">Records per page</label>
+        <select class="form-control" id="pageSize" name="pageSize" asp-items="pageSizes" onchange="this.form.submit()"></select>
     </div>
 </form>
 
