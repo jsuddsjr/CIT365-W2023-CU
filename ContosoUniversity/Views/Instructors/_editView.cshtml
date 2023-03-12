@@ -33,8 +33,8 @@
                     @foreach (var course in ViewBag.Courses as List<ContosoUniversity.Models.SchoolViewModels.AssignedCourseData>)
                     {
                         <td class="col-md-6 flex-nowrap">
-                            @Html.CheckBox("selectedCourses", course.Assigned, new { value = course.CourseID })
-                            @Html.Label("selectedCourses", $"{course.CourseID} | {course.Title}")
+                            @Html.CheckBox("selectedCourses", course.Assigned, new { id = $"id-{course.CourseID}", value = course.CourseID })
+                            @Html.Label($"id-{course.CourseID}", $"{course.CourseID} | {course.Title}")
                         </td>
                     }
                 </tr>

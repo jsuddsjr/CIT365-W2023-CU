@@ -160,27 +160,19 @@ namespace ContosoUniversity.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPost([Bind("ID,FirstMidName,EnrollmentDate,LastName")] Student student, int[] selectedCourses)
+        public async Task<IActionResult> EditPost(int? id, int[] selectedCourses)
         {
             Student studentToUpdate = await _context.Students
                 .Include(s => s.Enrollments)
-                .FirstOrDefaultAsync(s => s.ID == student.ID);
+                    .ThenInclude(s => s.Course)
+                .FirstOrDefaultAsync(s => s.ID == id);
 
-            if (selectedCourses != null)
-            {
-                studentToUpdate.Enrollments = new List<Enrollment>();
-                foreach (var course in selectedCourses)
-                {
-                    var courseToAdd = new Enrollment { StudentID = student.ID, CourseID = course };
-                    studentToUpdate.Enrollments.Add(courseToAdd);
-                }
-            }
-
-            if (await TryUpdateModelAsync<Student>(
+            if (await TryUpdateModelAsync(
                 studentToUpdate,
                 "",
                 s => s.FirstMidName, s => s.LastName, s => s.EnrollmentDate))
             {
+                UpdateStudentEnrollments(selectedCourses, studentToUpdate);
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -195,9 +187,42 @@ namespace ContosoUniversity.Controllers
                 }
             }
 
+
             PopulateAssignedCourseData(studentToUpdate);
             return View(studentToUpdate);
         }
+
+        private void UpdateStudentEnrollments(int[] selectedCourses, Student studentToUpdate)
+        {
+            if (selectedCourses == null)
+            {
+                studentToUpdate.Enrollments = new List<Enrollment>();
+                return;
+            }
+
+            HashSet<int> selectedCoursesHS = new(selectedCourses);
+            HashSet<int> instructorCourses = new HashSet<int>
+                (studentToUpdate.Enrollments.Select(c => c.Course.CourseID));
+            foreach (Course course in _context.Courses)
+            {
+                if (selectedCoursesHS.Contains(course.CourseID))
+                {
+                    if (!instructorCourses.Contains(course.CourseID))
+                    {
+                        studentToUpdate.Enrollments.Add(new Enrollment { StudentID = studentToUpdate.ID, CourseID = course.CourseID });
+                    }
+                }
+                else
+                {
+                    if (instructorCourses.Contains(course.CourseID))
+                    {
+                        Enrollment courseToRemove = studentToUpdate.Enrollments.FirstOrDefault(i => i.CourseID == course.CourseID);
+                        _context.Remove(courseToRemove);
+                    }
+                }
+            }
+        }
+
 
         // GET: Students/Delete/5
         public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)

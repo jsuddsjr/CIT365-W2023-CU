@@ -79,7 +79,7 @@ namespace ContosoUniversity.Controllers
         // GET: Instructors/Create
         public IActionResult Create()
         {
-            Instructor instructor = new Instructor
+            Instructor instructor = new()
             {
                 CourseAssignments = new List<CourseAssignment>()
             };
@@ -97,16 +97,18 @@ namespace ContosoUniversity.Controllers
                 instructor.CourseAssignments = new List<CourseAssignment>();
                 foreach (string course in selectedCourses)
                 {
-                    CourseAssignment courseToAdd = new CourseAssignment { InstructorID = instructor.ID, CourseID = int.Parse(course) };
+                    CourseAssignment courseToAdd = new() { InstructorID = instructor.ID, CourseID = int.Parse(course) };
                     instructor.CourseAssignments.Add(courseToAdd);
                 }
             }
+
             if (ModelState.IsValid)
             {
                 _context.Add(instructor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             PopulateAssignedCourseData(instructor);
             return View(instructor);
         }
@@ -121,13 +123,16 @@ namespace ContosoUniversity.Controllers
 
             Instructor instructor = await _context.Instructors
                 .Include(i => i.OfficeAssignment)
-                .Include(i => i.CourseAssignments).ThenInclude(i => i.Course)
+                .Include(i => i.CourseAssignments)
+                    .ThenInclude(i => i.Course)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
+
             if (instructor == null)
             {
                 return NotFound();
             }
+
             PopulateAssignedCourseData(instructor);
             return View(instructor);
         }
@@ -135,8 +140,8 @@ namespace ContosoUniversity.Controllers
         private void PopulateAssignedCourseData(Instructor instructor)
         {
             DbSet<Course> allCourses = _context.Courses;
-            HashSet<int> instructorCourses = new HashSet<int>(instructor.CourseAssignments.Select(c => c.CourseID));
-            List<AssignedCourseData> viewModel = new List<AssignedCourseData>();
+            HashSet<int> instructorCourses = new(instructor.CourseAssignments.Select(c => c.CourseID));
+            List<AssignedCourseData> viewModel = new();
             foreach (Course course in allCourses)
             {
                 viewModel.Add(new AssignedCourseData
@@ -155,7 +160,7 @@ namespace ContosoUniversity.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, string[] selectedCourses)
+        public async Task<IActionResult> Edit(int? id, int[] selectedCourses)
         {
             if (id == null)
             {
@@ -177,6 +182,7 @@ namespace ContosoUniversity.Controllers
                 {
                     instructorToUpdate.OfficeAssignment = null;
                 }
+
                 UpdateInstructorCourses(selectedCourses, instructorToUpdate);
                 try
                 {
@@ -196,7 +202,7 @@ namespace ContosoUniversity.Controllers
             return View(instructorToUpdate);
         }
 
-        private void UpdateInstructorCourses(string[] selectedCourses, Instructor instructorToUpdate)
+        private void UpdateInstructorCourses(int[] selectedCourses, Instructor instructorToUpdate)
         {
             if (selectedCourses == null)
             {
@@ -204,12 +210,11 @@ namespace ContosoUniversity.Controllers
                 return;
             }
 
-            HashSet<string> selectedCoursesHS = new HashSet<string>(selectedCourses);
-            HashSet<int> instructorCourses = new HashSet<int>
-                (instructorToUpdate.CourseAssignments.Select(c => c.Course.CourseID));
+            HashSet<int> selectedCoursesHS = new (selectedCourses);
+            HashSet<int> instructorCourses = new (instructorToUpdate.CourseAssignments.Select(c => c.Course.CourseID));
             foreach (Course course in _context.Courses)
             {
-                if (selectedCoursesHS.Contains(course.CourseID.ToString()))
+                if (selectedCoursesHS.Contains(course.CourseID))
                 {
                     if (!instructorCourses.Contains(course.CourseID))
                     {

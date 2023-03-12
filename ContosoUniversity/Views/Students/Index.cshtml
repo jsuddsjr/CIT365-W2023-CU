@@ -20,8 +20,8 @@
             <a class="btn btn-outline-secondary" asp-action="Index" asp-route-pageSize="@ViewData["pageSize"]">Clear</a>
         </div>
     </div>
-    <div class="input-group col-sm-3 flex-nowrap">
-        <label class="input-group-text" for="pageSize">Records per page</label>
+    <div class="input-group col-sm-6 col-lg-4 flex-nowrap">
+        <label class="input-group-text" for="pageSize">Page size</label>
         <select class="form-control" id="pageSize" name="pageSize" asp-items="pageSizes" onchange="this.form.submit()"></select>
     </div>
 </form>
