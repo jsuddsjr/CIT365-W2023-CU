@@ -1,0 +1,45 @@
+@model ContosoUniversity.Models.Student
+
+<h4>Student</h4>
+<hr>
+<div class="row">
+    <div class="col-sm-12 col-md-8">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="LastName" class="control-label"></label>
+            <input asp-for="LastName" class="form-control">
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="FirstMidName" class="control-label"></label>
+            <input asp-for="FirstMidName" class="form-control">
+            <span asp-validation-for="FirstMidName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EnrollmentDate" class="control-label"></label>
+            <input asp-for="EnrollmentDate" class="form-control">
+            <span asp-validation-for="EnrollmentDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <table>
+                <tr class="row">
+                    @foreach (var course in ViewBag.Courses as List<ContosoUniversity.Models.SchoolViewModels.AssignedCourseData>)
+                    {
+                            <td class="col-md-6 flex-nowrap">
+                            @Html.CheckBox("selectedCourses", course.Assigned, new { value = course.CourseID })
+                            @Html.Label("selectedCourses", $"{course.CourseID} | {course.Title}")
+                            </td>
+                    }
+                </tr>
+                <tr>
+                    <td>
+                        <a asp-action="Create" asp-controller="Courses">Create new course.</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>

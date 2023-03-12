@@ -142,7 +142,13 @@ namespace ContosoUniversity.Controllers
             {
                 return NotFound();
             }
-            Student studentToUpdate = await _context.Students.FirstOrDefaultAsync(s => s.ID == id);
+
+            Student studentToUpdate = await _context.Students
+                .Include(s => s.Enrollments)
+                    .ThenInclude(e => e.Course)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.ID == id);
+
             if (await TryUpdateModelAsync<Student>(
                 studentToUpdate,
                 "",
