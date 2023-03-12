@@ -1,8 +1,11 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using ContosoUniversity.Data;
 using ContosoUniversity.Models;
+using ContosoUniversity.Models.SchoolViewModels;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -92,6 +95,23 @@ namespace ContosoUniversity.Controllers
             return View(new Student());
         }
 
+        private void PopulateAssignedCourseData(Student student)
+        {
+            DbSet<Course> allCourses = _context.Courses;
+            HashSet<int> studentCourses = new HashSet<int>(student.Enrollments.Select(c => c.CourseID));
+            List<AssignedCourseData> viewModel = new List<AssignedCourseData>();
+            foreach (Course course in allCourses)
+            {
+                viewModel.Add(new AssignedCourseData
+                {
+                    CourseID = course.CourseID,
+                    Title = course.Title,
+                    Assigned = studentCourses.Contains(course.CourseID)
+                });
+            }
+            ViewData["Courses"] = viewModel;
+        }
+
         // POST: Students/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -127,8 +147,12 @@ namespace ContosoUniversity.Controllers
                 return NotFound();
             }
 
-            Student student = await _context.Students.FindAsync(id);
-            return student == null ? NotFound() : (IActionResult)View(student);
+            Student student = await _context.Students
+                .Include(s => s.Enrollments)
+                .FirstAsync(s => s.ID == id);
+
+            PopulateAssignedCourseData(student);
+            return student == null ? NotFound() : View(student);
         }
 
         // POST: Students/Edit/5
@@ -136,18 +160,21 @@ namespace ContosoUniversity.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPost(int? id)
+        public async Task<IActionResult> EditPost([Bind("ID,FirstMidName,EnrollmentDate,LastName")] Student student, int[] selectedCourses)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             Student studentToUpdate = await _context.Students
                 .Include(s => s.Enrollments)
-                    .ThenInclude(e => e.Course)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(s => s.ID == id);
+                .FirstOrDefaultAsync(s => s.ID == student.ID);
+
+            if (selectedCourses != null)
+            {
+                studentToUpdate.Enrollments = new List<Enrollment>();
+                foreach (var course in selectedCourses)
+                {
+                    var courseToAdd = new Enrollment { StudentID = student.ID, CourseID = course };
+                    studentToUpdate.Enrollments.Add(courseToAdd);
+                }
+            }
 
             if (await TryUpdateModelAsync<Student>(
                 studentToUpdate,
@@ -167,6 +194,8 @@ namespace ContosoUniversity.Controllers
                         "see your system administrator.");
                 }
             }
+
+            PopulateAssignedCourseData(studentToUpdate);
             return View(studentToUpdate);
         }
 

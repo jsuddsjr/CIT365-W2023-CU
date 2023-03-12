@@ -8,7 +8,7 @@
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade" role="alert">
+    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
 
         You can instruct Your browser to refuse all Cookies or to indicate when a Cookie is being sent.
         However, if You do not accept Cookies, You may not be able to use some parts of our Service.
@@ -19,10 +19,6 @@
     </div>
     <script>
         (function () {
-            if (document.cookie.indexOf("consent=true") >= 0) {
-                return;
-            })
-            var consentDiv = document.querySelector("#cookieConsent").classList.add('show');
             var button = document.querySelector("#cookieConsent button[data-cookie-string]");
             button.addEventListener("click", function (event) {
                 document.cookie = button.dataset.cookieString;
