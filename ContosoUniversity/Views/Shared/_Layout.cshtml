@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
     <title>@ViewData["Title"] - DigitalForge Institute</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,8 +16,8 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cyborg/bootstrap.min.css"
               integrity="sha384-nEnU7Ae+3lD52AK+RGNzgieBWMnEfgTbRHIwEvp1XXPdqdO6uLTd/NwXbzboqjc2" crossorigin="anonymous">
     </environment>
-    <link rel="stylesheet" href="~/css/site.css" />
-    <meta name="description" content="DigitalForge Institute is committed to providing quality education to students from all over the world. Our university offers a range of classes in economics, chemistry, and mathematics that are designed to help students achieve their academic goals and advance their careers." />
+    <link rel="stylesheet" href="~/css/site.css" >
+    <meta name="description" content="DigitalForge Institute is committed to providing quality education to students from all over the world. Our university offers a range of classes in economics, chemistry, and mathematics that are designed to help students achieve their academic goals and advance their careers." >
 </head>
 <body>
     <header>
@@ -28,7 +28,7 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <div id="navbarSupportedContent" class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -54,8 +54,8 @@
         </nav>
     </header>
     <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
+        <partial name="_CookieConsentPartial" >
+        <main class="pb-3">
             @RenderBody()
         </main>
     </div>
