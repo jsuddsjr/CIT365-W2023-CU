@@ -68,6 +68,9 @@ namespace ContosoUniversity.Controllers
             }
 
             Instructor instructor = await _context.Instructors
+                .Include(i => i.OfficeAssignment)
+                .Include(i => i.CourseAssignments)
+                    .ThenInclude(c => c.Course)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
             return instructor == null ? NotFound() : (IActionResult)View(instructor);

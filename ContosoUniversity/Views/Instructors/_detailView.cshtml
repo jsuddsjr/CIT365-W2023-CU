@@ -1,0 +1,62 @@
+@model ContosoUniversity.Models.Instructor
+
+<div>
+    <h4>Instructor</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstMidName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstMidName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.HireDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HireDate)
+        </dd>
+        @if (Model.OfficeAssignment != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.OfficeAssignment.Location)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.OfficeAssignment.Location)
+            </dd>
+        }
+        @if (Model.CourseAssignments != null && Model.CourseAssignments.Any())
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CourseAssignments)
+            </dt>
+            <dd class="col-sm-10">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.CourseAssignments)
+                    {
+                        <tr class="position-relative">
+                            <td>
+                                <a class="stretched-link" asp-action="Details" asp-controller="Courses" asp-route-id="@item.CourseID">@item.CourseID</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Course.Title)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </dd>
+        }
+    </dl>
+</div>

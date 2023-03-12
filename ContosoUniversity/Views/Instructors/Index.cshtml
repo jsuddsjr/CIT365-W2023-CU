@@ -9,97 +9,103 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Last Name</th>
-            <th>First Name</th>
-            <th>Hire Date</th>
-            <th>Office</th>
-            <th>Courses</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Instructors)
-        {
-            string selectedRow = "";
-            if (item.ID == (int?)ViewData["InstructorID"])
-            {
-                selectedRow = "table-success";
-            }
-            <tr class="@selectedRow">
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstMidName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HireDate)
-                </td>
-                <td>
-                    @if (item.OfficeAssignment != null)
-                    {
-                        @item.OfficeAssignment.Location
-                    }
-                </td>
-                <td>
-                    @{
-                        foreach (var course in item.CourseAssignments)
-                        {
-                            @course.Course.CourseID @:  @course.Course.Title <br />
-                        }
-                    }
-                </td>
-                <td>
-                    <a asp-action="Index" asp-route-id="@item.ID" asp-fragment="scroll">Select</a> |
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 
+<div class="table-responsive-lg">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Hire Date</th>
+                <th>Office</th>
+                <th>Courses</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Instructors)
+            {
+                string selectedRow = "";
+                if (item.ID == (int?)ViewData["InstructorID"])
+                {
+                    selectedRow = "table-success";
+                }
+                <tr class="@selectedRow">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstMidName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HireDate)
+                    </td>
+                    <td>
+                        @if (item.OfficeAssignment != null)
+                        {
+                            @item.OfficeAssignment.Location
+                        }
+                    </td>
+                    <td>
+                        @{
+                            foreach (var course in item.CourseAssignments)
+                            {
+                                @course.Course.CourseID @:  @course.Course.Title <br />
+                            }
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Index" asp-route-id="@item.ID" asp-fragment="scroll">Select</a> |
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
 @if (Model.Courses != null)
 {
     <h3>
         Courses Taught by Selected Instructor
     </h3>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Number</th>
-                <th>Title</th>
-                <th>Department</th>
-            </tr>
-        </thead>
+    <div class="table-responsive-lg">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Title</th>
+                    <th>Department</th>
+                </tr>
+            </thead>
 
-        @foreach (var item in Model.Courses)
-        {
-            string selectedRow = "";
-            if (item.CourseID == (int?)ViewData["CourseID"])
+            @foreach (var item in Model.Courses)
             {
-                selectedRow = "table-success";
+                string selectedRow = "";
+                if (item.CourseID == (int?)ViewData["CourseID"])
+                {
+                    selectedRow = "table-success";
+                }
+                <tr class="@selectedRow position-relative">
+                    <td>
+                        <a class="stretched-link" asp-action="Index" asp-fragment="scroll"
+                   asp-route-courseID="@item.CourseID" title="Select this course">
+                            @Html.DisplayFor(modelItem => item.CourseID)
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Department.Name)
+                    </td>
+                </tr>
             }
-            <tr class="@selectedRow position-relative">
-                <td>
-                    <a class="stretched-link" asp-action="Index" asp-fragment="scroll"
-               asp-route-courseID="@item.CourseID" title="Select this course">
-                        @Html.DisplayFor(modelItem => item.CourseID)
-                    </a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Department.Name)
-                </td>
-            </tr>
-        }
-    </table>
+        </table>
+
+    </div>
 }
 
 @if (Model.Enrollments != null)
@@ -107,30 +113,34 @@
     <h3>
         Students Enrolled in Selected Course
     </h3>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Grade</th>
-            </tr>
-        </thead>
 
-        @foreach (var item in Model.Enrollments)
-        {
-            <tr class="position-relative">
-                <td>
-                    <a class="stretched-link" asp-action="Details" asp-controller="Students"
-               asp-route-id="@item.StudentID" title="Select this student">
-                        @Html.DisplayFor(modelItem => item.Student.FullName)
-                    </a>
+    <div class="table-responsive-lg">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Grade)
-                </td>
-            </tr>
-        }
-    </table>
+            @foreach (var item in Model.Enrollments)
+            {
+                <tr class="position-relative">
+                    <td>
+                        <a class="stretched-link" asp-action="Details" asp-controller="Students"
+                   asp-route-id="@item.StudentID" title="Select this student">
+                            @Html.DisplayFor(modelItem => item.Student.FullName)
+                        </a>
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Grade)
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
 }
 
 @* Anchor to keep the bottom in view *@

@@ -32,11 +32,17 @@
                 <tr class="row">
                     @foreach (var course in ViewBag.Courses as List<ContosoUniversity.Models.SchoolViewModels.AssignedCourseData>)
                     {
-                        <td class="col-md-6 col-lg-4 flex-nowrap">
+                        <td class="col-md-6 flex-nowrap">
                             @Html.CheckBox("selectedCourses", course.Assigned, new { value = course.CourseID })
                             @Html.Label("selectedCourses", $"{course.CourseID} | {course.Title}")
                         </td>
                     }
+                </tr>
+                <tr>
+                    <td>
+                        <a asp-action="Create" asp-controller="Courses">Create new course.</a>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
