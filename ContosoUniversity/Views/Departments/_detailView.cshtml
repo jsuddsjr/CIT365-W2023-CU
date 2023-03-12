@@ -33,7 +33,7 @@
                 </a>
             }
         </dd>
-        @if (Model.Courses != null)
+        @if (Model.Courses != null & Model.Courses.Any())
         {
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Courses)

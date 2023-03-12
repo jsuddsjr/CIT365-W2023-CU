@@ -25,34 +25,19 @@
             <input asp-for="OfficeAssignment.Location" class="form-control" />
             <span asp-validation-for="OfficeAssignment.Location" class="text-danger" />
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <table>
-                    <tr>
-                        @{
-                            int cnt = 0;
-                            List<ContosoUniversity.Models.SchoolViewModels.AssignedCourseData> courses = ViewBag.Courses;
-
-                            foreach (var course in courses)
-                            {
-                                if (cnt++ % 3 == 0)
-                                {
-                                @:</tr><tr>
-                                }
-                                @:<td>
-                                    <input type="checkbox"
-                                            name="selectedCourses"
-                                            value="@course.CourseID"
-                                            @(Html.Raw(course.Assigned ? "checked=\"checked\"" : "")) />
-                                    @course.CourseID @:  @course.Title
-                                @:</td>
-                            }
-                        @:</tr>
-                        }
-                    </table>
-                </div>
-            </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <table>
+                <tr class="row">
+                    @foreach (var course in ViewBag.Courses as List<ContosoUniversity.Models.SchoolViewModels.AssignedCourseData>)
+                    {
+                        <td class="col-md-6 col-lg-4 flex-nowrap">
+                            @Html.CheckBox("selectedCourses", course.Assigned, new { value = course.CourseID })
+                            @Html.Label("selectedCourses", $"{course.CourseID} | {course.Title}")
+                        </td>
+                    }
+            </table>
         </div>
     </div>
-
+</div>
