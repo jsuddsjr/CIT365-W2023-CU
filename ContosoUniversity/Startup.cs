@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using SixLabors.ImageSharp.Web.DependencyInjection;
+
 namespace ContosoUniversity
 {
     public class Startup
@@ -38,6 +40,8 @@ namespace ContosoUniversity
             {
                 options.EnableEndpointRouting = false;
             });
+
+            services.AddImageSharp();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +61,7 @@ namespace ContosoUniversity
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseImageSharp();
 
             app.UseMvc(routes =>
             {

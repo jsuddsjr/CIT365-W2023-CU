@@ -1,27 +1,95 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
+
+    var cropMode = "&rmode=min&ranchor=center&format=webp";
+    var img1x = "width=320&height=160" + cropMode;
+    var img2x = "width=640&height=320" + cropMode;
+    var img4x = "width=1920&height=640" + cropMode;
 }
 
-<div class="jumbotron">
-    <h1>@ViewData["Title"]</h1>
+<div id="imageRotator" class="carousel slide" data-ride="carousel">
+
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#imageRotator" data-slide-to="0" class="active"></li>
+        <li data-target="#imageRotator" data-slide-to="1"></li>
+        <li data-target="#imageRotator" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Images -->
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="img-fluid w-100"
+                 srcset="
+                ~/img/vecteezy_trendy-elegant-co-working-center-interior-modern-workspace_6018276.jpg?@(img1x) 1x,
+                ~/img/vecteezy_trendy-elegant-co-working-center-interior-modern-workspace_6018276.jpg?@(img2x) 2x,
+                ~/img/vecteezy_trendy-elegant-co-working-center-interior-modern-workspace_6018276.jpg?@(img4x) 4x"
+                 src="~/img/vecteezy_trendy-elegant-co-working-center-interior-modern-workspace_6018276.jpg?@img2x"
+                 width="640" height="320"
+                 loading="lazy"
+                 alt="First slide">
+        </div>
+        <div class="carousel-item">
+            <img class="img-fluid w-100"
+                 srcset="
+                ~/img/vecteezy_student-life-assessment-test-graduation-icon-set-collage-campus-online-exam-trajectory-education-vector-flat-design-isolated-concept-metaphor-illustrations_1991638.jpg?@(img1x) 1x,
+                ~/img/vecteezy_student-life-assessment-test-graduation-icon-set-collage-campus-online-exam-trajectory-education-vector-flat-design-isolated-concept-metaphor-illustrations_1991638.jpg?@(img2x) 2x,
+                ~/img/vecteezy_student-life-assessment-test-graduation-icon-set-collage-campus-online-exam-trajectory-education-vector-flat-design-isolated-concept-metaphor-illustrations_1991638.jpg?@(img4x) 4x"
+                 src="~/img/vecteezy_student-life-assessment-test-graduation-icon-set-collage-campus-online-exam-trajectory-education-vector-flat-design-isolated-concept-metaphor-illustrations_1991638.jpg?@img2x"
+                 width="640" height="320"
+                 loading="lazy"
+                 alt="Second slide">
+        </div>
+        <div class="carousel-item">
+            <img class="img-fluid w-100"
+                 srcset="
+                ~/img/vecteezy_students-on-campus-near-university-building_16263655.jpg?@(img1x) 1x,
+                ~/img/vecteezy_students-on-campus-near-university-building_16263655.jpg?@(img2x) 2x,
+                ~/img/vecteezy_students-on-campus-near-university-building_16263655.jpg?@(img4x) 4x"
+                 src="~/img/vecteezy_students-on-campus-near-university-building_16263655.jpg?@img2x"
+                 width="640" height="320"
+                 loading="lazy"
+                 src="~/img/vecteezy_students-on-campus-near-university-building_16263655.jpg" alt="Third slide">
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <a class="carousel-control-prev" href="#imageRotator" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#imageRotator" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
-<div class="row">
-    <div class="col-sm-12 col-md-8">
-        <h2>@ViewData["Title"]</h2>
+
+<div class="row my-3">
+    <div class="col-sm-6 col-xl-3">
+        <h2>About us</h2>
         <p>
-            DigitalForge Institute is a sample application that
-            demonstrates how to use Entity Framework Core in an
-            ASP.NET Core MVC web application.
+            Welcome to DigitalForge, where we are committed to providing quality education to students from all over the world. Our university offers a range of classes in economics, chemistry, and mathematics that are designed to help students achieve their academic goals and advance their careers.
         </p>
     </div>
-    <div class="col-sm-12 col-md-8">
-        <h2>@ViewData["Title"]</h2>
-        <p>You can build the application by following the steps in a series of tutorials.</p>
-        <p><a class="btn btn-primary" href="https://docs.asp.net/en/latest/data/ef-mvc/intro.html">See the tutorial &raquo;</a></p>
+    <div class="col-sm-6 col-xl-3">
+        <h2>World-class instruction</h2>
+        <p>
+            Our faculty members are highly qualified professionals who are dedicated to teaching and research. They bring a wealth of knowledge and expertise to their classes, providing students with a comprehensive understanding of their subjects.
+        </p>
+        <p><a class="btn btn-primary" asp-action="Index" asp-controller="Instructors">Meet your instructors &raquo;</a></p>
     </div>
-    <div class="col-sm-12 col-md-8">
-        <h2>@ViewData["Title"]</h2>
-        <p>You can download the completed project from GitHub.</p>
-        <p><a class="btn btn-primary" href="https://github.com/dotnet/AspNetCore.Docs/tree/main/aspnetcore/data/ef-mvc/intro/samples/cu-final">See project source code &raquo;</a></p>
+    <div class="col-sm-6 col-xl-3">
+        <h2>STEM to the max</h2>
+        <p>
+            Our economics classes cover topics such as microeconomics, macroeconomics, international trade, and economic policy. Our chemistry classes cover organic chemistry, biochemistry, physical chemistry, and environmental chemistry. Our mathematics classes cover calculus, linear axlebra, statistics, and probability.
+
+        </p>
+        <p><a class="btn btn-primary" asp-action="Index" asp-controller="Departments">Browse the catalog &raquo;</a></p>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <h2>Tutoring available</h2>
+        <p>
+            We are proud to offer a range of resources to help our students succeed, including online tutoring, academic advising, and career counseling. Our graduates are well-prepared to enter the workforce or pursue further education in their chosen fields.
+        </p>
     </div>
 </div>
